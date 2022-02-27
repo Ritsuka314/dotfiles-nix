@@ -4,11 +4,14 @@
   home.packages = with pkgs; [
     wget
     curl
-    exa
     fd
     tree
 
-    # alphine comes with busybox
+    ## alphine comes with busybox
+    ## so manually install the proper alternatives
+    ## see also bat-and-friends.nix
+    exa # aliases set in zsh.nix: programs.zsh.shellAliases 
+    diffutils
     less
 
     # for polybar
