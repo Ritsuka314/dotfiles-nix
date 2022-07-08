@@ -29,7 +29,8 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 # update, upgrade, install necessary tools
 apk update
 apk upgrade
-apk add curl xz sudo
+# ncurses for the tput command that hm installer needs
+apk add curl xz sudo ncurses 
 
 # open /etc/sudoers
 visudo
@@ -43,9 +44,8 @@ Alpine.exe config --default-user richard
 
 ## install nix in single-user mode
 # https://nixos.wiki/wiki/Nix_Installation_Guide#Single-user_install
-
 sudo install -d -m755 -o $(id -u) -g $(id -g) /nix
-curl -L https://nixos.org/nix/install | sh
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
 
 echo ". $HOME/.nix-profile/etc/profile.d/nix.sh" >> $HOME/.profile
 # adding to .profile seems OK. check if should add to .bashrc instead
@@ -55,14 +55,19 @@ echo ". $HOME/.nix-profile/etc/profile.d/nix.sh" >> $HOME/.profile
 # check if nix is installed
 nix --version
 
-# follow unstable channel for flakes
-nix-env -iA nixpkgs.nixUnstable
+## install flakes
+# https://nixos.wiki/wiki/Flakes#Non-NixOS
+nix-env -iA nixpkgs.nixFlakes
+
+# create path recursively and give no executable permission
+install -m 644 -D /dev/null ~/.config/nix/nix.conf
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 
 ## install Home Manager in standalone mode
 # https://nix-community.github.io/home-manager/index.html#sec-install-standalone
 
-# Add the Home Manager channel that you wish to follow. If you are following Nixpkgs master or an unstable channel then this is done by running
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+# Add the Home Manager channel that you wish to follow.
+nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
 nix-channel --update
 
 echo "export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH" >> $HOME/.profile
@@ -71,13 +76,3 @@ echo "export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH" >> $HO
 nix-shell '<home-manager>' -A install
 
 echo "exec zsh" >> $HOME/.profile
-
-## install flakes
-# https://nixos.wiki/wiki/Flakes#Non-NixOS
-
-# create path recursively and give no executable permission
-install -m 644 -D /dev/null ~/.config/nix/nix.conf
-
-echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-
-curl -L https://github.com/numtide/nix-flakes-installer/releases/download/nix-3.0pre20200804_ed52cf6/install | sh

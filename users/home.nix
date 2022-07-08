@@ -1,4 +1,4 @@
-{ overlays, isWSL }: # for partial application
+{ isWSL }: # for partial application
 
 { config, pkgs, lib, colorscheme, ... }:
 
@@ -22,8 +22,6 @@
     colorscheme = (import ./colorschemes/dracula.nix);
   };
 
-  nixpkgs.overlays = overlays;
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -42,5 +40,5 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.05";
+  # home.stateVersion = "22.05";
 }
