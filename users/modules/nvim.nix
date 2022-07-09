@@ -27,6 +27,7 @@ in
       { plugin   = vim-commentary;
         optional = true;
       }
+      quick-scope
       nvim-lspconfig
       vim-nix
       (nvim-treesitter.withPlugins (
