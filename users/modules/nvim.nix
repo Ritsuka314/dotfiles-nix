@@ -27,7 +27,6 @@ in
       { plugin   = vim-commentary;
         optional = true;
       }
-      quick-scope
       nvim-lspconfig
       vim-nix
       (nvim-treesitter.withPlugins (
@@ -35,35 +34,7 @@ in
           tree-sitter-nix
       ]))
     ]; 
-    extraConfig = ''
-      " enable syntax hilighting
-      syntax enable
-
-      " replace tabs
-      set tabstop=2
-      set shiftwidth=2
-      set expandtab
-
-      if exists('g:vscode')
-        packadd vim-easymotion-vscode
-      else
-        packadd vim-easymotion
-      endif
-
-      if exists('g:vscode')
-        " VSCode extension
-        xmap gc  <Plug>VSCodeCommentary
-        nmap gc  <Plug>VSCodeCommentary
-        omap gc  <Plug>VSCodeCommentary
-        nmap gcc <Plug>VSCodeCommentaryLine
-      else
-        " ordinary neovim
-        packadd vim-commentary
-      endif
-
-      highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-      highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-    '';
+    extraConfig = builtins.readFile ./init.vim;
   };
 
 }
