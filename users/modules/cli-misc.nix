@@ -5,7 +5,6 @@
     wget
     curl
     fd
-    tree
 
     ## alphine comes with busybox
     ## so manually install the proper alternatives
