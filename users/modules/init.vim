@@ -6,6 +6,8 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+"" navigation
+
 if exists('g:vscode')
   " set `vscode-neovim.textDecorationsAtTop` to true
   packadd vim-easymotion-vscode
@@ -29,6 +31,11 @@ map <Plug>(easymotion-prefix)E   <Plug>(easymotion-bd-E)
 " map  <Plug>(easymotion-prefix)/ <Plug>(easymotion-sn)
 " omap <Plug>(easymotion-prefix)/ <Plug>(easymotion-tn)
 
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+
+"" edit
+
 if exists('g:vscode')
   " VSCode extension
   xmap gc  <Plug>VSCodeCommentary
@@ -40,5 +47,31 @@ else
   packadd vim-commentary
 endif
 
-highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+"" apparance
+
+if !exists('g:vscode')
+  " doesn't work with vsc
+else
+lua << ENDLUA
+  require('neoscroll').setup()
+  require("scrollbar").setup()
+  require('nvim-cursorline').setup ({
+    cursorline = {
+      enable = true,
+      enable = false
+      timeout = 1000,
+      number = false,
+    },
+    cursorword = {
+      enable = true,
+      min_length = 3,
+      hl = {
+        underline = true,
+        cterm = {
+          underline = true
+        }
+      },
+    }
+  })
+ENDLUA
+endif
