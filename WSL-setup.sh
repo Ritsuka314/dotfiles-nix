@@ -30,7 +30,8 @@ sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 apk update
 apk upgrade
 # ncurses for the tput command that hm installer needs
-apk add curl xz sudo ncurses 
+# libstdc++ for vs code remote server
+apk add curl xz sudo ncurses libstdc++
 
 # open /etc/sudoers
 visudo
