@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 let
+  configPlugin = plugin : cfg :
+    { plugin = plugin; } // cfg;
   vim-easymotion-vscode = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "vim-easymotion-vscode";
     version = "2020-06-13";
@@ -9,6 +11,16 @@ let
       repo = "vim-easymotion";
       rev = "34fb922c3cf5e88cff3f0824005e219dce83ea6f";
       sha256 = "rcpks3GDu+HVb57gStcAPo+qOQf11b9uMghGsAjh1G8=";
+    };
+  };
+  syntax-tree-surfer = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "syntax-tree-surfer";
+    version = "2022-07-03";
+    src = pkgs.fetchFromGitHub {
+      owner = "ziontee113";
+      repo = "syntax-tree-surfer";
+      rev = "9d5879ab6f2f4f02ce5bd0777e67b11de2c41b22";
+      sha256 = "FDuwni5DQy4pdiEKPGb/GqWu6RFB2c25rQwx9HpKFPk=";
     };
   };
   nvim-scrollbar = pkgs.vimUtils.buildVimPluginFrom2Nix {
@@ -21,6 +33,16 @@ let
       sha256 = "1RADFi4CRadFn9Q+E9pOhiPnZGDKs4WQycbXZB47I4I=";
     };
   };
+  leap = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "leap.nvim";
+    version = "2022-07-08";
+    src = pkgs.fetchFromGitHub {
+      owner = "ggandor";
+      repo = "leap.nvim";
+      rev = "1bb1fec369b1e9ae96e6ff1b829ea9272c51f844";
+      sha256 = "dH0v1D5q5OlMLA/omTDMb/taKyIgQ5VfVMYXJ609k/k=";
+    };
+  };
 in
 {
   programs.neovim = {
@@ -29,27 +51,36 @@ in
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
       # navigation
-      { plugin   = vim-easymotion;
-        optional = true;
-      }
-      { plugin   = vim-easymotion-vscode;
-        optional = true;
-      }
-      quick-scope
+      leap
+      (configPlugin syntax-tree-surfer {
+        type     = "lua";
+        config   = builtins.readFile ./nvim/syntax-tree-surfer.lua;
+      })
       # edit
-      { plugin   = vim-commentary;
+      (configPlugin vim-commentary {
         optional = true;
-      }
+        config   = builtins.readFile ./nvim/commentary.vim;
+      })
       # apparance
-      neoscroll-nvim
-      nvim-scrollbar
-      nvim-cursorline
+      (configPlugin neoscroll-nvim {
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd neoscroll.nvim | endif";
+      })
+      (configPlugin nvim-scrollbar {
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd nvim-scrollbar | endif";
+      })
+      (configPlugin nvim-cursorline {
+        optional = true;
+        config   = builtins.readFile ./nvim/cursorline.vim;
+      })
       # language
       nvim-lspconfig
       vim-nix
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [
           tree-sitter-nix
+          tree-sitter-latex
       ]))
     ]; 
     extraConfig = builtins.readFile ./init.vim;

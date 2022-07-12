@@ -5,16 +5,16 @@
     enable = true;
     enableAutosuggestions = true; # load and enable the zsh-autosuggestions package
     enableCompletion = true; # load and enable the nix-zsh-completions package
-    # home manager uses the obsolete oh-my-zsh
-    # ohMyZsh = {
-    oh-my-zsh = {
-      enable = true;
-    # home manager has POOR support of managing plugins with oh-my-zsh... 
-    # i.e., with home manager `zsh.oh-my-zsh.plugins` takes only a string list,
-    # so don't use oh-my-zsh to manage plugins and use `zsh.plugins` instead
-    # nonethess, load oh-my-zsh for its key-bindings,
-    # which is more portable across terminals
-    };
+    # # home manager uses the obsolete oh-my-zsh
+    # # ohMyZsh = {
+    # oh-my-zsh = {
+    #   enable = true;
+    # # home manager has POOR support of managing plugins with oh-my-zsh... 
+    # # i.e., with home manager `zsh.oh-my-zsh.plugins` takes only a string list,
+    # # so don't use oh-my-zsh to manage plugins and use `zsh.plugins` instead
+    # # nonethess, load oh-my-zsh for its key-bindings,
+    # # which is more portable across terminals
+    # };
     shellAliases = {
       ls = "exa -a --icons";
       tree = "exa -a --tree --icons";

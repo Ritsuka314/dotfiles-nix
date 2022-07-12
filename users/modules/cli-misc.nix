@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs; [
+    nix-tree
+    
     wget
     curl
     fd
