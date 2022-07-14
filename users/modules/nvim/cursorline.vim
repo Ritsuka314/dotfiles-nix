@@ -2,7 +2,7 @@ if exists('g:vscode')
   " doesn't work with vsc
 else
   packadd nvim-cursorline
-lua << ENDLUA
+lua << EOF
   require('nvim-cursorline').setup ({
     cursorline = {
       enable = true,
@@ -15,5 +15,5 @@ lua << ENDLUA
       hl = { underline = true, cterm = { underline = true } },
     }
   })
-ENDLUA
+EOF
 endif

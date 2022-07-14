@@ -50,8 +50,13 @@ in
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins; [
+      (configPlugin impatient-nvim {
+        config = "lua require('impatient')";
+      })
       # navigation
-      leap
+      (configPlugin leap {
+        config   = "lua require('leap').set_default_keymaps()";
+      })
       (configPlugin syntax-tree-surfer {
         type     = "lua";
         config   = builtins.readFile ./nvim/syntax-tree-surfer.lua;
@@ -62,6 +67,31 @@ in
         config   = builtins.readFile ./nvim/commentary.vim;
       })
       # apparance
+      (configPlugin dracula-vim {
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd dracula-vim | colorscheme dracula | endif";
+      })
+      (configPlugin lualine-nvim {
+        optional = true;
+        config   = ''
+          if !exists('g:vscode')
+            packadd lualine.nvim
+            lua require('lualine').setup()
+          endif'';
+      })
+      (configPlugin indent-blankline-nvim {
+        optional = true;
+        config = ''
+          if !exists('g:vscode')
+            packadd indent-blankline.nvim
+          lua << EOF
+              require('indent_blankline').setup({
+                show_current_context = true,
+                show_current_context_start = true
+              })
+          EOF
+          endif'';
+      })
       (configPlugin neoscroll-nvim {
         optional = true;
         config   = "if !exists('g:vscode') | packadd neoscroll.nvim | endif";
@@ -74,6 +104,15 @@ in
         optional = true;
         config   = builtins.readFile ./nvim/cursorline.vim;
       })
+      # util
+      (configPlugin which-key-nvim {
+        optional = true;
+        config   = ''
+          if !exists('g:vscode')
+            packadd which-key.nvim
+            lua require("which-key").setup()
+          endif'';
+      })
       # language
       nvim-lspconfig
       vim-nix
@@ -83,7 +122,7 @@ in
           tree-sitter-latex
       ]))
     ]; 
-    extraConfig = builtins.readFile ./init.vim;
+    extraConfig = "source ${./init.lua}";
   };
 
 }
