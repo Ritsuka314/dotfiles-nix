@@ -30,3 +30,17 @@ o.mouse = "a" -- all modes (n)ormal (v)isual (i)insert (c)ommand-line
 -- Miscellaneous quality of life
 o.ignorecase = true
 o.completeopt = "menuone,noselect"
+          
+o.clipboard = "unnamedplus"
+g.clipboard = {
+  name = 'win32yank-wsl',
+  copy = {
+      ['+'] = g.win32yank .. " -i --crlf",
+      ['*'] = g.win32yank .. " -i --crlf",
+    },
+  paste = {
+      ['+'] = g.win32yank .. " -o --lf",
+      ['*'] = g.win32yank .. " -o --lf",
+  },
+  cache_enabled = 0,
+}

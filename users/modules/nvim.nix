@@ -43,8 +43,17 @@ let
       sha256 = "dH0v1D5q5OlMLA/omTDMb/taKyIgQ5VfVMYXJ609k/k=";
     };
   };
+  win32yank = pkgs.runCommand "win32yank" {} ''
+    mkdir $out
+    cp ${./nvim/win32yank.exe} $out/win32yank.exe
+    chmod +x $out/win32yank.exe
+  '';
 in
 {
+  home.packages = [
+    win32yank
+  ];
+ 
   programs.neovim = {
     enable = true;
     vimAlias = true;
@@ -122,7 +131,9 @@ in
           tree-sitter-latex
       ]))
     ]; 
-    extraConfig = "source ${./init.lua}";
+    extraConfig = ''
+      let g:win32yank = "${win32yank}/win32yank.exe"
+      source ${./init.lua}'';
   };
 
 }
