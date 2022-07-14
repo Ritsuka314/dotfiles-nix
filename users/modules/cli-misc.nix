@@ -18,4 +18,9 @@
     # for polybar
     inotify-tools
   ];
+  
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }

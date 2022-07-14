@@ -5,6 +5,9 @@
     enable = true;
     userName = "richardyan314";
     userEmail = "richardyan314@foxmail.com";
+    extraConfig = {
+      init = { defaultBranch = "master"; };
+    };
     delta = {
       enable = true;
       options = {
