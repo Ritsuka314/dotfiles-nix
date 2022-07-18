@@ -31,7 +31,7 @@ o.mouse = "a" -- all modes (n)ormal (v)isual (i)insert (c)ommand-line
 o.ignorecase = true
 o.completeopt = "menuone,noselect"
           
-o.clipboard = "unnamedplus"
+o.clipboard:append { "unnamedplus" }
 g.clipboard = {
   name = 'win32yank-wsl',
   copy = {
