@@ -209,6 +209,10 @@ in
           tree-sitter-latex
           tree-sitter-lua
       ]))
+      (configPlugin vimtex {
+        optional = true;
+        config   = builtins.readFile ./nvim/vimtex.vim;
+      })
     ]; 
     extraConfig = ''
       let g:win32yank='${win32yank}/win32yank.exe'
@@ -216,4 +220,5 @@ in
       source ${./nvim/init.lua}'';
   };
 
+  home.file.".vim/autoload/vimtex/view/sumatra.vim".text = builtins.readFile ./nvim/sumatra.vim;
 }
