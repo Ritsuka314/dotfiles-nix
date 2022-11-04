@@ -1,5 +1,4 @@
-
-if not vim.gvscode then
+if not vim.g.vscode then
   vim.cmd [[ packadd indent-blankline.nvim ]]
   require('indent_blankline').setup({
     use_treesitter = true,

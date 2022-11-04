@@ -3,11 +3,11 @@ local c = v.cmd
 local g = v.g
 local o = v.opt
 
--- enable syntax hilighting
-o.syntax = "on"
-
 -- auto toggle line number mode
 if not g.vscode then
+  -- enable syntax hilighting
+  o.syntax = "on"
+
   o.number = true
 
   c [[
@@ -17,6 +17,8 @@ if not g.vscode then
       autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
     augroup END
   ]]
+else
+  o.syntax = "off"
 end
 
 -- replace tabs

@@ -1,7 +1,7 @@
 require'nvim-treesitter.configs'.setup {
-  highlight = { enable = true, },
+  highlight = { enable = not vim.g.vscode },
   indent = { enable = true },
-  rainbow = { enable = true },
+  rainbow = { enable =  not vim.g.vscode },
   pairs = { enable = true },
   refactor = {
     highlight_definitions = {

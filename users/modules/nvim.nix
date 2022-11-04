@@ -150,14 +150,19 @@ in
         optional = true;
         config   = "if !exists('g:vscode') | packadd dracula-vim | colorscheme dracula | endif";
       })
-      nvim-ts-rainbow # depends on treesitter
+      (configPlugin nvim-ts-rainbow { # depends on treesitter
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd nvim-ts-rainbow | endif";
+      })
       (configPlugin twilight-nvim { # depends on treesitter
         optional = true; # manually load plugin so can do TwilightEnable 
         config   = ''
-          packadd twilight.nvim
-          lua require('twilight').setup()
-          highlight Twilight ctermfg='8' ctermbg='236'
-          TwilightEnable
+          if !exists('g:vscode')
+            packadd twilight.nvim
+            lua require('twilight').setup()
+            highlight Twilight ctermfg='8' ctermbg='236'
+            TwilightEnable
+          end
         '';
       })
       (configPlugin lualine-nvim {
@@ -168,7 +173,10 @@ in
             lua require('lualine').setup()
           endif'';
       })
-      nvim-treesitter-context # depends on treesitter
+      (configPlugin nvim-treesitter-context { # depends on treesitter
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd nvim-treesitter-context | endif";
+      })
       (configPlugin indent-blankline-nvim {
         type     = "lua";
         config   = builtins.readFile ./nvim/indent-blankline.lua;
@@ -190,7 +198,10 @@ in
         optional = true;
         config   = builtins.readFile ./nvim/commentary.vim;
       })
-      nvim-treesitter-refactor
+      (configPlugin nvim-treesitter-refactor {
+        optional = true;
+        config   = "if !exists('g:vscode') | packadd nvim-treesitter-refactor | endif";
+      })
       #### util
       (configPlugin which-key-nvim {
         optional = true;
@@ -201,7 +212,7 @@ in
           endif'';
       })
       #### language
-      nvim-lspconfig
+      # nvim-lspconfig
       vim-nix
       (nvim-treesitter.withPlugins (
         plugins: with plugins; [
