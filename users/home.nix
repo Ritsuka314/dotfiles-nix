@@ -28,8 +28,8 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "richard";
-    homeDirectory = "/home/richard";
+    username = "ritsuka";
+    homeDirectory = "/home/ritsuka";
   };
 
   # This value determines the Home Manager release that your

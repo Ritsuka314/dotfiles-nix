@@ -15,7 +15,7 @@ wsl --set-default Alpine
 # now logged in as root
 
 # create non-root user profile
-adduser -u 1000 -G users -G wheel -h /home/richard richard
+adduser -u 1000 -G users -G wheel -h /home/ritsuka ritsuka
 # set password
 
 # change repo site if necessary
@@ -33,13 +33,16 @@ apk upgrade
 # libstdc++ for vs code remote server
 apk add curl xz sudo ncurses libstdc++
 
+# add timezone info so exa can print file modify time in local time
+apk add tzdata
+
 # open /etc/sudoers
 visudo
 # uncomment the line:
 # %wheel ALL=(ALL) ALL
 
 ### windows CMD
-Alpine.exe config --default-user richard
+Alpine.exe config --default-user ritsuka
 
 ### WSL
 
@@ -68,7 +71,7 @@ echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 # https://nix-community.github.io/home-manager/index.html#sec-install-standalone
 
 # Add the Home Manager channel that you wish to follow.
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 
 echo "export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH" >> $HOME/.profile

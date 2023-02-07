@@ -20,8 +20,8 @@
             ((import ./home.nix) {inherit isWSL;})
             {
               home = {
-                username = "richard";
-                homeDirectory = "/home/richard";
+                username = "ritsuka";
+                homeDirectory = "/home/ritsuka";
                 stateVersion = "22.11";
               };
             }
